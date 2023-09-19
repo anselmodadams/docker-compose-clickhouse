@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<yandex>
+    <zookeeper>
+	    <node index="1">
+		    <host>keeper01</host>
+		    <port>2181</port>
+	    </node>
+		<node index="2">
+		    <host>keeper02</host>
+		    <port>2181</port>
+	    </node>
+		<node index="3">
+		    <host>keeper03</host>
+		    <port>2181</port>
+	    </node>
+        <session_timeout_ms>3000</session_timeout_ms>
+    </zookeeper>
+</yandex>

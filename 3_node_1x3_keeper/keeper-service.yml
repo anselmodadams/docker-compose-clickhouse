@@ -1,0 +1,22 @@
+version: '2.3'
+
+services:
+  keeper:
+    image: clickhouse/clickhouse-keeper:23.8
+    expose:
+      - "2181"
+    environment:
+      KEEPER_RAFT_PORT: 9234
+      KEEPER_SERVER_PORT: 2181
+    healthcheck:
+      test: echo stat | nc localhost 2181
+      interval: 3s
+      timeout: 2s
+      retries: 5
+      start_period: 2s
+    volumes:
+      - ./keeper/keeper_config.xml:/etc/clickhouse-keeper/keeper_config.xml
+    security_opt:
+      - label:disable
+    mem_limit: 1000M
+    cpus: 2

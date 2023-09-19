@@ -1,0 +1,89 @@
+version: '2.3'
+
+services: 
+  keeper01:
+    extends:
+      file: keeper-service.yml 
+      service: keeper
+    environment:
+      KEEPER_SERVER_ID: 1
+    volumes:
+      - ./_keepers/keeper01/logs:/var/log/clickhouse-keeper
+  keeper02:
+    extends:
+      file: keeper-service.yml 
+      service: keeper
+    environment:
+      KEEPER_SERVER_ID: 2
+    volumes:
+      - ./_keepers/keeper02/logs:/var/log/clickhouse-keeper
+  keeper03:
+    extends:
+      file: keeper-service.yml 
+      service: keeper
+    environment:
+      KEEPER_SERVER_ID: 3
+    volumes:
+      - ./_keepers/keeper03/logs:/var/log/clickhouse-keeper
+
+  clickhouse1:
+    extends:
+      file: clickhouse-service.yml
+      service: clickhouse
+    hostname: clickhouse1
+    environment:
+      SHARD: 01
+      REPLICA: 01
+    volumes:
+      - ./_instances/clickhouse1/database/:/var/lib/clickhouse/
+      - ./_instances/clickhouse1/logs/:/var/log/clickhouse-server/
+    depends_on:
+      # only if keeper01 is healthy - this is a test environment, not for production
+      keeper01:
+        condition: service_healthy
+  clickhouse2:
+    extends:
+      file: clickhouse-service.yml
+      service: clickhouse
+    hostname: clickhouse2
+    environment:
+      SHARD: 01
+      REPLICA: 02
+    volumes:
+      - ./_instances/clickhouse2/database/:/var/lib/clickhouse/
+      - ./_instances/clickhouse2/logs/:/var/log/clickhouse-server/
+    depends_on:
+      # only if keeper01 is healthy - this is a test environment, not for production
+      keeper01:
+        condition: service_healthy
+  clickhouse3:
+    extends:
+      file: clickhouse-service.yml
+      service: clickhouse
+    hostname: clickhouse3
+    environment:
+      SHARD: 01
+      REPLICA: 01
+    volumes:
+      - ./_instances/clickhouse3/database/:/var/lib/clickhouse/
+      - ./_instances/clickhouse3/logs/:/var/log/clickhouse-server/
+    depends_on:
+      # only if keeper01 is healthy - this is a test environment, not for production
+      keeper01:
+        condition: service_healthy
+
+  all_services_ready:
+    image: hello-world
+    depends_on:
+      clickhouse1:
+        condition: service_healthy
+      clickhouse2:
+        condition: service_healthy
+      clickhouse3:
+        condition: service_healthy
+      keeper01:
+        condition: service_healthy
+      keeper02:
+        condition: service_healthy
+      keeper03:
+        condition: service_healthy

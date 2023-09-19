@@ -1,0 +1,6 @@
+<yandex>
+    <merge_tree>
+        <ttl_only_drop_parts>1</ttl_only_drop_parts>
+	    <materialize_ttl_recalculate_only>0</materialize_ttl_recalculate_only>
+    </merge_tree>
+</yandex>

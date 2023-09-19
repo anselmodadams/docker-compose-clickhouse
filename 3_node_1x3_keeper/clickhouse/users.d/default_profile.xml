@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<yandex>
+    <users>
+        <default>
+            <access_management>1</access_management>
+        </default>
+    </users>
+    <profiles>
+        <default>
+           <max_memory_usage replace="1" from_env="MAX_MEMORY_USAGE" />
+           <max_bytes_before_external_group_by from_env="MAX_BYTES_BEFORE_EXTERNAL_GROUP_BY" />
+           <max_bytes_before_external_sort from_env="MAX_BYTES_BEFORE_EXTERNAL_SORT" />
+           <max_threads from_env="MAX_THREADS" />
+           <materialize_ttl_after_modify>0</materialize_ttl_after_modify>
+	   <prefer_localhost_replica>0</prefer_localhost_replica>
+	   <prefer_column_name_to_alias>1</prefer_column_name_to_alias>
+        </default>
+    </profiles>
+</yandex>
